@@ -10,6 +10,7 @@ public class RegularDice implements Dice {
         this.sides = sides;
     }
 
+    @Override
     public int roll() {
         return random.nextInt(sides) + 1;
     }

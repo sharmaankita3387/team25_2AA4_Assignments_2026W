@@ -23,7 +23,7 @@ public class MultiDice implements Dice {
         diceList.add(d);
     }
 
-        @Override
+    @Override
     public int roll() {
         int total = 0;
 
