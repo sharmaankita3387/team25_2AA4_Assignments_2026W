@@ -8,18 +8,60 @@ package Assignment1;
 /**
  * 
  */
-public class Settlement {
+public class Settlement extends Building{
 	/**
 	 * 
 	 */
 	private int resourceMultiplier;
 
 	/**
-	 * 
-	 * @param resources 
-	 * @return 
+	 * keeps track of the specific node this
 	 */
+	private Node node;
+
+	/**
+	 *
+	 * @param owner
+	 * @param node
+	 */
+	public Settlement(Agent owner, Node node){
+		super(owner, 1);
+		this.node = node;
+	}
+	/**
+	 * This method will tell if the correct payment is given to build a settlement
+	 * @param resources array of resources given for payment
+	 * @return payment
+	 */
+	@Override
 	public boolean resourcePayment(Resources[] resources) {
+		boolean payment = false;
+		int wool = 0, brick = 0, wheat = 0, lumber = 0;
+		for (Resources r : resources){
+			switch (r){
+				case WHEAT:
+					wheat++;
+					break;
+				case WOOL:
+					wool++;
+					break;
+				case BRICK:
+					brick++;
+					break;
+				case LUMBER:
+					lumber++;
+					break;
+				case NULL:
+				case ORE:
+					break;
+			}
+		}
+
+		if (wheat == 1 && wool == 1 && brick == 1 && lumber == 1){
+			payment = true;
+		}
+
+		return payment;
 	}
 
 	/**
@@ -27,5 +69,6 @@ public class Settlement {
 	 * @return 
 	 */
 	public int getResourceMultiplier() {
+		return 1;
 	}
 }
