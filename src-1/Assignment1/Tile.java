@@ -5,24 +5,13 @@
 
 package Assignment1;
 
-/************************************************************/
-/**
- * 
- */
+import java.util.ArrayList;
 import java.util.List;
 
 public class Tile {
-	/**
-	 * 
-	 */
+	
 	private Resources resource;
-	/**
-	 * 
-	 */
 	private int rollValue;
-	/**
-	 * 
-	 */
 	private int tilePosition;
 	private List<Edge> edges;
 
@@ -37,7 +26,27 @@ public class Tile {
 		return rollValue;
 	}
 
+	/**
+     * Required for GamePlay to know what card to give an Agent.
+     */
 	public Resources getResource() {
 		return resource;
 	}
+
+	/**
+     * Critical for GamePlay distribution logic. 
+     * Navigates from the Tile -> its Edges -> the Nodes on those Edges.
+     */
+    public List<Node> getAdjacentNodes() {
+        List<Node> adjacentNodes = new ArrayList<>();
+        for (Edge edge : edges) {
+            for (Node node : edge.getNodes()) {
+                if (!adjacentNodes.contains(node)) {
+                    adjacentNodes.add(node);
+                }
+            }
+        }
+        return adjacentNodes;
+    }
+
 }
