@@ -6,6 +6,7 @@ package Assignment1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /************************************************************/
 /**
@@ -55,4 +56,14 @@ public class Agent {
 	public String getName() {
 		return name;
 	}
+
+	public int getHandSize() {
+    	return hand.size();
+	}
+
+	public Resources getRandomResourceFromHand() {
+    	if (hand.isEmpty()) return null;
+    	return hand.get(new Random().nextInt(hand.size()));
+	}
+
 }

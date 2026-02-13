@@ -5,6 +5,7 @@
 package Assignment1;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -15,12 +16,12 @@ import java.util.Random;
 public class GamePlay {
 	
 	private int roundNumber = 0;
-	private int turnNumber = 0;
-	private final List<Agent> agents;
-	private final Board board;
-	private final Die dice;
-	private final int maxRounds;
-	private final Random random = new Random();
+    private int turnNumber = 0;
+    private final List<Agent> agents;
+    private final Board board;
+    private final Dice dice;
+    private final int maxRounds;
+    private final Random random = new Random();
 
 	/**
 	 * Initializes the simulation controller with necessary game components.
@@ -29,7 +30,7 @@ public class GamePlay {
 	 * @param die			The multi-dice component for rolling.
 	 * @param maxRounds		The limit of rounds to simulate before termination.
 	*/
-	public GamePlay(List<Agent> agents, Board board, Die dice, int maxRounds){
+	public GamePlay(List<Agent> agents, Board board, Dice dice, int maxRounds){
 		this.agents = agents;
 		this.board = board;
 		this.dice = dice;
@@ -41,23 +42,22 @@ public class GamePlay {
 	 * reaches 10 victory points or the maximum round limit is reached.
 	*/
 	public void runSimulation() {
-		boolean victoryAchieved = false;
-		
-		// Simulate for user-defined rounds or until 10 VPs are collected
-		while (roundNumber < maxRounds && !victoryAchieved) {
-			roundNumber++;
-			for (Agent activeAgent : agents) {
-				turnNumber++;
-				executeTurn(activeAgent);
+        boolean victoryAchieved = false;
+        
+        while (roundNumber < maxRounds && !victoryAchieved) {
+            roundNumber++;
+            for (Agent activeAgent : agents) {
+                turnNumber++;
+                executeTurn(activeAgent);
 
-				if (activeAgent.getVictoryPoints() >= 10){
-					victoryAchieved = true;
-					break;
-				}
-			}
-			printRoundSummary();
-		}
-	}
+                if (activeAgent.getVictoryPoints() >= 10){
+                    victoryAchieved = true;
+                    break;
+                }
+            }
+            printRoundSummary();
+        }
+    }
 
 	/**
 	 * Handles the logic for an individual agent's turn, including resource 
@@ -65,21 +65,18 @@ public class GamePlay {
 	 * @param agent	The agent currently taking their turn.
 	 */
 	private void executeTurn(Agent agent){
-		int roll = dice.roll();
+        int roll = dice.roll();
 
-        //If a 7 is rolled, continue without producing resources
         if (roll != 7) {
             distributeResources(roll);
         } else {
             handleSevenRoll();
         }
 
-        //Agents with >7 cards must try to spend them by building
         if (agent.getHandSize() > 7) {
             performRandomBuildAction(agent);
         }
-	}
-
+    }
 
 	/**
 	 * Matches the current dice roll against tile values on the board and distributes 
@@ -87,30 +84,27 @@ public class GamePlay {
 	 * @param roll	The integer value resulting from the dice roll.
 	 */
 	private void distributeResources(int roll){
-		//Iterate through all 19 tiles (0-18) as per the specification 
-		for (int i = 0; i < 19; i++){
-			Tile currentTile = board.getTile(i);
+        for (int i = 0; i < 19; i++){
+            Tile currentTile = board.getTile(i);
 
-			if (currentTile.getRollValue() == roll){
-				Resources producedResource = currentTile.getResourceType();
+            if (currentTile.getRollValue() == roll){
+                Resources producedResource = currentTile.getResource();
 
-				// Check all intersections (nodes) bordering the hex 
-				for (Node adjacentNode : currentTile.getAdjacentNodes()) {
-					Building building = board.getBuildingAtNode(adjacentNode);
+                for (Node adjacentNode : currentTile.getAdjacentNodes()) {
+                    Building building = board.getBuildingAtNode(adjacentNode);
 
-					if (building != null){
-						Agent owner = building.getAgent();
-						int amount = (building instanceof City) ? 2 : 1; 
+                    if (building != null){
+                        Agent owner = building.getAgent();
+                        int amount = (building instanceof City) ? 2 : 1; 
 
-						for (int j = 0; j < amount; j++){
-							owner.addResource(producedResource);
-						}
-					}
-				}
-			} 
-		}		
-	
-	}
+                        for (int j = 0; j < amount; j++){
+                            owner.addResource(producedResource);
+                        }
+                    }
+                }
+            } 
+        } 
+    }
 
 	/**
 	 * Implements a simple linear  heck of all valid actions and picks one
@@ -118,22 +112,21 @@ public class GamePlay {
 	 * @param agent		The agent performing a build action.
 	 */
 	private void performRandomBuildAction(Agent agent){
-		//Linear check of all building possibilities.
-		List<Runnable> possibleActions = new ArrayList<>();
+        List<Runnable> possibleActions = new ArrayList<>();
 
-		// Check for valid Settlement placements (54 nodes) [cite: 1175, 1189]
+        // Check for valid Settlement placements
         for (int i = 0; i < 54; i++) {
             Node node = board.getNode(i);
             if (canPlaceSettlement(agent, node)) {
-                possibleActions.add(() -> board.placeSettlement(node, new Settlement(agent, 1)));
+                possibleActions.add(() -> board.placeSettlement(node, new Settlement(agent, node)));
             }
         }
 
-        // Check for valid City upgrades (replacing settlements) [cite: 1155, 1539]
+        // Check for valid City upgrades
         for (int i = 0; i < 54; i++) {
             Node node = board.getNode(i);
             if (canPlaceCity(agent, node)) {
-                possibleActions.add(() -> board.placeCity(node, new City(agent, 2), agent));
+                possibleActions.add(() -> board.placeCity(node, new City(agent, node), agent));
             }
         }
 
@@ -147,13 +140,45 @@ public class GamePlay {
 	 *intersections are vacant
 	*/
 	private boolean canPlaceSettlement(Agent agent, Node node){
-		if (board.getBuildingAtNode(node) != null) return false;
-		for (Node neighbor : node.getAdjacentNodes()) {
-			if (board.getBuildingAtNode(neighbor) != null) return false;
-		}
-		return true;
-	}
+        if (board.getBuildingAtNode(node) != null) return false;
+        for (Node neighbor : node.getAdjacentNodes()) {
+            if (board.getBuildingAtNode(neighbor) != null) return false;
+        }
+        return true;
+    }
 
+	public String placeRoad(Agent agent, Edge edge){
+        if(board.getRoadAtEdge(edge) != null){
+            return "There's already a road placed here.";
+        }
+
+        for(Node node: edge.getNodes()){
+            Building building = board.getBuildingAtNode(node);
+            if (building != null && building.getAgent().equals(agent)) {
+                return "Road placed.";
+            }
+
+            // Corrected to use board's edgeRoads getter
+            for (Map.Entry<Edge, Road> entry: board.getEdgeRoads().entrySet()){
+                Edge existingEdge = entry.getKey();
+                Road road = entry.getValue();
+
+                if (!road.getAgent().equals(agent)) {
+                    continue;
+                }
+
+                for(Node adjacentNode: existingEdge.getNodes()){
+                    if(adjacentNode.equals(node)){
+                        // Assuming board has a put method or access for roads
+                        return "Road placed.";
+                    }
+                }
+            }
+        }
+        return "Cannot place road here.";
+    }
+
+	
 	/**
      * Enforces the upgrade rule: cities must replace existing settlements
      */
@@ -170,16 +195,14 @@ public class GamePlay {
         for (Agent a : agents) {
             int handSize = a.getHandSize();
             if (handSize > 7) {
-                int discardCount = handSize / 2; // Integer division handles rounding down 
+                int discardCount = handSize / 2; 
                 for (int i = 0; i < discardCount; i++) {
-                    // Selection of discarded cards is random as agents act randomly
                     Resources r = a.getRandomResourceFromHand();
                     a.removeResource(r);
                 }
             }
         }
     }
-
 
 	/**
      * Outputs the current victory points at the end of each round.
