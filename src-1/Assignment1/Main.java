@@ -18,7 +18,7 @@ public class Main {
         // 1. Initialize the Dice
         // Using the Composite Pattern via MultiDice to hold two 6-sided dice.
         MultiDice gameDice = new MultiDice();
-        gameDice.addDice(new RegularDice(6)); 
+        gameDice.addDice(new RegularDice(6));
         gameDice.addDice(new RegularDice(6));
 
         // 2. Initialize the 4 Agents (Requirement R1.2)
@@ -34,7 +34,7 @@ public class Main {
         List<Edge> edges = new ArrayList<>();
         List<Node> nodes = new ArrayList<>();
 
-        // Create 2 Nodes (Intersections)
+        // Create 2 Nodes (Inter sections)
         Node n1 = new Node(0);
         Node n2 = new Node(1);
         nodes.add(n1);
@@ -50,22 +50,22 @@ public class Main {
         tileEdges.add(e1);
         Tile wheatTile = new Tile(Resources.WHEAT, 10, 0, tileEdges);
         tiles.add(wheatTile);
-        
+
         // Initialize the Board with the map components
         Board catanBoard = new Board(tiles, edges, nodes);
 
-        // 4. Give Agents starting buildings so they can earn resources 
+        // 4. Give Agents starting buildings so they can earn resources
         // Place a settlement for Agent_Alpha on Node n1
         catanBoard.placeSettlement(n1, new Settlement(agents.get(0), n1));
 
         // 5. Initialize the GamePlay Controller
-        int maxRounds = 8192; 
+        int maxRounds = 8192;
         GamePlay controller = new GamePlay(agents, catanBoard, gameDice, maxRounds);
 
         // 6. Run the Simulation
         System.out.println("--- Starting Catan Simulation ---");
         controller.runSimulation();
-        
+
         // 7. Final Status Output
         System.out.println("--- Simulation Complete ---");
         System.out.println("Total Turns Elapsed: " + controller.getTurnNumber());

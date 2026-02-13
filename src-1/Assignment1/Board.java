@@ -74,4 +74,12 @@ public class Board {
     	return edgeRoads;
 	}
 
+	public List<Tile> getTiles() {
+		return tiles;
+	}
+
+	public List<Node> getNodes() {
+		return nodes;
+	}
+
 }
