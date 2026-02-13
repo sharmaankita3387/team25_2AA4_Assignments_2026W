@@ -5,6 +5,11 @@
 package Assignment1;
 
 /************************************************************/
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 
  */
@@ -14,21 +19,42 @@ public class Board {
 	 * @param Tile 
 	 * @return 
 	 */
-	public Tile[] getTile(Tile[] Tile) {
+	private List<Edge> edges;
+	private List<Node> nodes;
+	private List<Tile> tiles;
+
+	private Map<Node, Building> nodeBuildings;
+	private Map<Edge, Road> edgeRoads;
+
+	public Board(List<Tile> tiles, List<Edge> edges, List<Node> nodes) {
+		this.tiles = tiles;
+		this.edges = edges;
+		this.nodes = nodes;
+		this.nodeBuildings = new HashMap<Node, Building>();
+		this.edgeRoads = new HashMap<Edge, Road>();
+
+	}
+
+	public Tile getTile(int index) {
+		return tiles.get(index);
 	}
 
 	/**
 	 * 
-	 * @param Edge 
+	 * @param index
 	 * @return 
 	 */
-	public Edge[] getEdge(Edge Edge) {
+	public Edge getEdge(int index) {
+		return edges.get(index);
 	}
 
 	/**
-	 * 
-	 * @param Node 
+	 *
+	 * @param index
 	 */
-	public void getNode(Node[] Node) {
+	public Node getNode(int index) {
+		return nodes.get(index);
 	}
+
+
 }

@@ -17,22 +17,17 @@ public class Node {
 
 	/**
 	 * 
-	 * @return 
-	 */
-	public int getNodeNum() {
-	}
-
-	/**
-	 * 
 	 * @param nodeID 
 	 */
 	public void Node(int nodeID) {
+		this.nodeID = nodeID;
 	}
 
 	/**
-	 * 
-	 * @return 
+	 *
+	 * @return
 	 */
-	public boolean hasBuilding() {
+	public int getNodeNum() {
+		return nodeID;
 	}
 }
