@@ -51,18 +51,7 @@ public class Agent {
 		return victoryPoints;
 
 	}
-
-	/**
-	 * 
-	 * @param points 
-	 */
-	public void addVictoryPoints(int points) {
-	}
-
-	/**
-	 * 
-	 * @return  
-	 */
+	
 	public String getName() {
 		return name;
 	}
