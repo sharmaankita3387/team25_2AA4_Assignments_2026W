@@ -33,20 +33,40 @@ public class Main {
         List<Tile> tiles = new ArrayList<>();
         List<Edge> edges = new ArrayList<>();
         List<Node> nodes = new ArrayList<>();
+
+        // Create 2 Nodes (Intersections)
+        Node n1 = new Node(0);
+        Node n2 = new Node(1);
+        nodes.add(n1);
+        nodes.add(n2);
+
+        // Create an Edge (Road spot) connecting them
+        Edge e1 = new Edge(n1, n2);
+        edges.add(e1);
+
+        // Create a Wheat Tile with a roll value of 10
+        // We pass e1 so the Tile knows which edges (and nodes) surround it
+        List<Edge> tileEdges = new ArrayList<>();
+        tileEdges.add(e1);
+        Tile wheatTile = new Tile(Resources.WHEAT, 10, 0, tileEdges);
+        tiles.add(wheatTile);
         
         // Initialize the Board with the map components
         Board catanBoard = new Board(tiles, edges, nodes);
 
-        // 4. Initialize the GamePlay Controller (Requirement R1.4 & R1.5)
-        // Max rounds set to 8192 as per project specifications.
-        int maxRounds = 8192;
+        // 4. Give Agents starting buildings so they can earn resources 
+        // Place a settlement for Agent_Alpha on Node n1
+        catanBoard.placeSettlement(n1, new Settlement(agents.get(0), n1));
+
+        // 5. Initialize the GamePlay Controller
+        int maxRounds = 8192; 
         GamePlay controller = new GamePlay(agents, catanBoard, gameDice, maxRounds);
 
-        // 5. Run the Simulation
+        // 6. Run the Simulation
         System.out.println("--- Starting Catan Simulation ---");
         controller.runSimulation();
         
-        // 6. Final Status Output
+        // 7. Final Status Output
         System.out.println("--- Simulation Complete ---");
         System.out.println("Total Turns Elapsed: " + controller.getTurnNumber());
     }
