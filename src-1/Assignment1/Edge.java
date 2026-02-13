@@ -16,9 +16,13 @@ public class Edge {
 
 	/**
 	 * 
-	 * @param node 
+	 * @param node1
+	 * @param node2
 	 */
-	public void Edge(Node[] node) {
+	public Edge(Node node1, Node node2) {
+		this.nodes = new Node[2];
+		this.nodes[0] = node1;
+		this.nodes[1] = node2;
 	}
 
 	/**
@@ -26,12 +30,6 @@ public class Edge {
 	 * @return 
 	 */
 	public Node[] getNodes() {
-	}
-
-	/**
-	 * 
-	 * @return 
-	 */
-	public boolean hasRoad() {
+		return nodes;
 	}
 }
