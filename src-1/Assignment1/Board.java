@@ -6,9 +6,7 @@ package Assignment1;
 
 /************************************************************/
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 
@@ -56,5 +54,57 @@ public class Board {
 		return nodes.get(index);
 	}
 
+	public String placeSettlement(Node node, Settlement settlement) {
+		if(nodeBuildings.containsKey(node)) {
+			return "There is already a settlement for this node!";
+		}
 
+		nodeBuildings.put(node, settlement);
+		return "Settlement placed.";
+	}
+
+	public String placeCity(Node node, City city, Agent agent) {
+		Building existing = nodeBuildings.get(node);
+		if(!(existing instanceof Settlement && existing.getAgent().equals(agent))){
+			return "You need to have a settlement placed first before building a city.";
+		}
+
+		nodeBuildings.put(node, city);
+		return "City placed.";
+	}
+
+	public String placeRoad(Agent agent, Edge edge){
+		//checks if there's a road already associated with the edge
+		if(edgeRoads.containsKey(edge)){
+			return "There's already a road placed here.";
+		}
+
+		for(Node node: edge.getNodes()){
+
+			//Checks if there's a building beside it
+			Building building = nodeBuildings.get(node);
+			if (building != null && building.getAgent().equals(agent)) {
+				return "Road placed.";
+			}
+
+			//Checks if there's a road beside it
+			for (Map.Entry<Edge, Road> entry: edgeRoads.entrySet()){
+				Edge existingEdge = entry.getKey();
+				Road road = entry.getValue();
+
+				//if road doesn't belong to owner, skip it
+				if (!road.getAgent().equals(agent)) {
+					continue;
+				}
+
+				for(Node adjacentNode: existingEdge.getNodes()){
+					if(adjacentNode.equals(node)){
+						edgeRoads.put(edge, new Road(agent, edge));
+						return "Road placed.";
+					}
+				}
+			}
+		}
+        return "Cannot place road here.";
+    }
 }
