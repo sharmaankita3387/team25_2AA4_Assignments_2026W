@@ -9,6 +9,8 @@ package Assignment1;
 /**
  * 
  */
+import java.util.List;
+
 public class Tile {
 	/**
 	 * 
@@ -22,4 +24,20 @@ public class Tile {
 	 * 
 	 */
 	private int tilePosition;
+	private List<Edge> edges;
+
+	public Tile(Resources resource, int rollValue, int tilePosition, List<Edge> edges) {
+		this.resource = resource;
+		this.rollValue = rollValue;
+		this.tilePosition = tilePosition;
+		this.edges = edges;
+	}
+
+	public int getRollValue() {
+		return rollValue;
+	}
+
+	public Resources getResource() {
+		return resource;
+	}
 }
