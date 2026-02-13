@@ -56,5 +56,12 @@ public class Board {
 		return nodes.get(index);
 	}
 
+	public String placeSettlement(Node node, Settlement settlement) {
+		if(nodeBuildings.containsKey(node)) {
+			return "There is already a settlement for this node!";
+		}
 
+		nodeBuildings.put(node, settlement);
+		return "Settlement placed.";
+	}
 }
