@@ -9,7 +9,7 @@ public interface Dice {
 
 	/**
 	 * 
-	 * @return 
+	 * @return Generates a random integer value representing a die roll.
 	 */
 	public int roll();
 }
