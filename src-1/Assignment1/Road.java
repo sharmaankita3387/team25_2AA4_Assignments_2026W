@@ -10,7 +10,7 @@ package Assignment1;
  */
 public class Road extends Building{
 	/**
-	 * 
+	 * This keeps track of what edge has been used as a road
 	 */
 	private Edge edge;
 
@@ -47,7 +47,7 @@ public class Road extends Building{
 	}
 
 	public Road(Agent owner, Edge edge){
-		super(owner);
+		super(owner, 0);
 		this.edge = edge;
 	}
 }

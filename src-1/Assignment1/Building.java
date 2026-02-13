@@ -11,10 +11,10 @@ package Assignment1;
  */
 public abstract class Building {
 	/**
-	 * 
+	 * keeps track of the which player owns this road
 	 */
 	private Agent owner;
-
+	private int victoryPoint;
 	/**
 	 * 
 	 * @param resource 
@@ -34,7 +34,12 @@ public abstract class Building {
 	 * Constructor for the object creation
 	 * @param owner 
 	 */
-	public Building(Agent owner) {
+	public Building(Agent owner, int points) {
 		this.owner = owner;
+		this.victoryPoint = points;
+	}
+
+	public int getVictoryPoint(){
+		return this.victoryPoint;
 	}
 }
