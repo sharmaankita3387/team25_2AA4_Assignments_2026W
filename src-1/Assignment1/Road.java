@@ -8,17 +8,46 @@ package Assignment1;
 /**
  * 
  */
-public class Road {
+public class Road extends Building{
 	/**
 	 * 
 	 */
 	private Edge edge;
 
 	/**
-	 * 
-	 * @param resources 
-	 * @return 
+	 * this method is for checking if the resources given are enough to pay for the road
+	 * @param resources this is the arrau of resouces being checked
+	 * @return payment which describes if the correct payment was made
 	 */
+	@Override
 	public boolean resourcePayment(Resources[] resources) {
+		boolean payment = false;
+		int lumber = 0;
+		int brick = 0;
+		for(Resources r : resources){
+			switch (r){
+				case LUMBER:
+					lumber++;
+					break;
+				case BRICK:
+					brick++;
+					break;
+				case ORE:
+				case WOOL:
+				case WHEAT:
+				case NULL:
+					break;
+			}
+		}
+
+		if(lumber == 1 && brick == 1){
+			payment = true;
+		}
+		return payment;
+	}
+
+	public Road(Agent owner, Edge edge){
+		super(owner);
+		this.edge = edge;
 	}
 }
