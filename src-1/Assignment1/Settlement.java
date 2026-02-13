@@ -21,12 +21,13 @@ public class Settlement extends Building{
 
 	/**
 	 *
-	 * @param owner
-	 * @param node
+	 * @param owner the agent who owns the building
+	 * @param node the node on which the building is sitting on
 	 */
 	public Settlement(Agent owner, Node node){
 		super(owner, 1);
 		this.node = node;
+		this.resourceMultiplier = 1;
 	}
 	/**
 	 * This method will tell if the correct payment is given to build a settlement
@@ -53,7 +54,7 @@ public class Settlement extends Building{
 					break;
 				case NULL:
 				case ORE:
-					break;
+					return false; // should immediately terminate as none of these resources are part of the correct payment
 			}
 		}
 
@@ -65,10 +66,10 @@ public class Settlement extends Building{
 	}
 
 	/**
-	 * 
-	 * @return 
+	 * This method tells the user how much this settlement is worth in victory points
+	 * @return the resourse multiplier
 	 */
 	public int getResourceMultiplier() {
-		return 1;
+		return this.resourceMultiplier;
 	}
 }

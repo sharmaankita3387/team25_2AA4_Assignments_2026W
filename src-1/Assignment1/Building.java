@@ -14,9 +14,23 @@ public abstract class Building {
 	 * keeps track of the which player owns this road
 	 */
 	private Agent owner;
-	private int victoryPoint;
+
 	/**
-	 * 
+	 * this will tell us how many victory points each building is worth
+	 */
+	private int victoryPoint;
+
+	/**
+	 * Constructor for the object creation
+	 * @param owner
+	 */
+	public Building(Agent owner, int points) {
+		this.owner = owner;
+		this.victoryPoint = points;
+	}
+
+	/**
+	 * This method will check if the input resourses are enough to buy the building
 	 * @param resource 
 	 * @return 
 	 */
@@ -31,14 +45,9 @@ public abstract class Building {
 	}
 
 	/**
-	 * Constructor for the object creation
-	 * @param owner 
+	 *
+	 * @return what the building is worth in victory points
 	 */
-	public Building(Agent owner, int points) {
-		this.owner = owner;
-		this.victoryPoint = points;
-	}
-
 	public int getVictoryPoint(){
 		return this.victoryPoint;
 	}

@@ -15,8 +15,18 @@ public class Road extends Building{
 	private Edge edge;
 
 	/**
+	 * The constructor for the object
+	 * @param owner the agent associated with this building
+	 * @param edge the edge this road lies on
+	 */
+	public Road(Agent owner, Edge edge){
+		super(owner, 0);
+		this.edge = edge;
+	}
+
+	/**
 	 * this method is for checking if the resources given are enough to pay for the road
-	 * @param resources this is the arrau of resouces being checked
+	 * @param resources this is the array of resources being checked
 	 * @return payment which describes if the correct payment was made
 	 */
 	@Override
@@ -36,7 +46,7 @@ public class Road extends Building{
 				case WOOL:
 				case WHEAT:
 				case NULL:
-					break;
+					return false;// should immediately terminate as none of these resources are part of the correct payment
 			}
 		}
 
@@ -44,10 +54,5 @@ public class Road extends Building{
 			payment = true;
 		}
 		return payment;
-	}
-
-	public Road(Agent owner, Edge edge){
-		super(owner, 0);
-		this.edge = edge;
 	}
 }
