@@ -23,16 +23,18 @@ public abstract class Building {
 	public abstract boolean resourcePayment(Resources[] resource);
 
 	/**
-	 * 
-	 * @return 
+	 * getter method for owner of the building
+	 * @return the owner of the building
 	 */
 	public Agent getAgent() {
+		return this.owner;
 	}
 
 	/**
-	 * 
+	 * Constructor for the object creation
 	 * @param owner 
 	 */
-	public void Building(Agent owner) {
+	public Building(Agent owner) {
+		this.owner = owner;
 	}
 }
