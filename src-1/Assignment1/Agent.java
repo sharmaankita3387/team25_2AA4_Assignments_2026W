@@ -4,29 +4,30 @@
 // Aleena
 package Assignment1;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /************************************************************/
 /**
  * 
  */
 public class Agent {
-	/**
-	 * 
-	 */
 	private int victoryPoints;
-	/**
-	 * 
-	 */
-	private Resources[] hand;
-	/**
-	 * 
-	 */
-	public String name;
+	private List<Resources> hand;
+	private String name;
+
+	public Agent (int victoryPoints, String name){
+		this.victoryPoints = victoryPoints;
+		this.hand = new ArrayList<>();
+		this.name = name;
+	}
 
 	/**
 	 * 
 	 * @param resource 
 	 */
 	public void addResource(Resources resource) {
+		hand.add(resource);
 	}
 
 	/**
@@ -34,13 +35,21 @@ public class Agent {
 	 * @param resource 
 	 */
 	public void removeResource(Resources resource) {
-	}
+        for (int i = 0; i < hand.size(); i++) {
+            if (hand.get(i) == resource) {  
+                hand.remove(i);
+                break; 
+            }
+        }
+    }
 
 	/**
 	 * 
-	 * @return 
+	 * @return  
 	 */
 	public int getVictoryPoints() {
+		return victoryPoints;
+
 	}
 
 	/**
@@ -52,8 +61,9 @@ public class Agent {
 
 	/**
 	 * 
-	 * @return 
+	 * @return  
 	 */
 	public String getName() {
+		return name;
 	}
 }
