@@ -8,17 +8,55 @@ package Assignment1;
 /**
  * 
  */
-public class City {
+public class City extends Building {
 	/**
-	 * 
+	 * keeps track of how many resources
 	 */
 	private int resourceMultiplier;
 
 	/**
-	 * 
-	 * @param resources 
+	 * keeps track of which node the building is sitting upon
+	 */
+	private Node node;
+
+	public City(Agent owner, Node node){
+		super(owner, 2);
+		this.resourceMultiplier = 2;
+		this.node = node;
+	}
+
+	/**
+	 * this checks if the resources given as payment are sufficient
+	 * @param resources the array of resources being checked
 	 * @return 
 	 */
 	public boolean resourcePayment(Resources[] resources) {
+		boolean payment = false;
+		int wheat = 0, ore = 0;
+		for (Resources r : resources){
+			switch (r){
+				case ORE:
+					ore++;
+					break;
+				case WHEAT:
+					wheat++;
+					break;
+				case NULL:
+				case LUMBER:
+				case BRICK:
+				case WOOL:
+					return false; // should immediately terminate as none of these resources are part of the correct payment
+			}
+		}
+
+		if(wheat == 2 && ore == 3){
+			payment = true;
+		}
+
+		return payment;
+	}
+
+	public int getResourceMultiplier(){
+		return this.resourceMultiplier;
 	}
 }
