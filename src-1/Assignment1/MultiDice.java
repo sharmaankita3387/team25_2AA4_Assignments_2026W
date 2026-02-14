@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MultiDice implements Dice {
-	private final List<Dice> diceList;
+	private List<Dice> diceList;
 
 	public MultiDice(){
 		this.diceList = new ArrayList<>();
