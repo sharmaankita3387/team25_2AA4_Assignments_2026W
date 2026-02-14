@@ -8,7 +8,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+  <properties>
+    <sonar.organization>sharmaankita3387</sonar.organization>
+  </properties>
 </module>
-<properties>
-  <sonar.organization>sharmaankita3387</sonar.organization>
-</properties>
