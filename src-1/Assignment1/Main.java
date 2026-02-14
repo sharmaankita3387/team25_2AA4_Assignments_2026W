@@ -35,19 +35,32 @@ public class Main {
         List<Node> nodes = new ArrayList<>();
 
         // Create 2 Nodes (Inter sections)
-        Node n1 = new Node(0);
-        Node n2 = new Node(1);
+        Node n0 = new Node(0);
+        Node n1 = new Node(1);
+        Node n2 = new Node(2);
+
+        nodes.add(n0);
         nodes.add(n1);
         nodes.add(n2);
 
         // Create an Edge (Road spot) connecting them
+        Edge e0 = new Edge(n0, n1);
         Edge e1 = new Edge(n1, n2);
+
+        edges.add(e0);
         edges.add(e1);
 
-        // Create a Wheat Tile with a roll value of 10
-        // We pass e1 so the Tile knows which edges (and nodes) surround it
+        // Register edges with nodes (CRITICAL for adjacency rules)
+        n0.addEdge(e0);
+        n1.addEdge(e0);
+        n1.addEdge(e1);
+        n2.addEdge(e1);
+
+        // Create a Tile touching both edges
         List<Edge> tileEdges = new ArrayList<>();
+        tileEdges.add(e0);
         tileEdges.add(e1);
+
         Tile wheatTile = new Tile(Resources.WHEAT, 10, 0, tileEdges);
         tiles.add(wheatTile);
 
@@ -56,7 +69,9 @@ public class Main {
 
         // 4. Give Agents starting buildings so they can earn resources
         // Place a settlement for Agent_Alpha on Node n1
-        catanBoard.placeSettlement(n1, new Settlement(agents.get(0), n1));
+        catanBoard.placeSettlement(n1, new Settlement(agents.get(0), n0));
+        catanBoard.placeSettlement(n2, new Settlement(agents.get(1), n2));
+        System.out.println("Initial settlements placed.");
 
         // 5. Initialize the GamePlay Controller
         int maxRounds = 8192;
