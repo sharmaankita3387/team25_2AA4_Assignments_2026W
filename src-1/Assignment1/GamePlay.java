@@ -27,7 +27,7 @@ public class GamePlay {
 	 * Initializes the simulation controller with necessary game components.
 	 * @param agents		The array of 4 agents participating agents.
 	 * @param board			The game board contaning tiles, nodes, and edges.
-	 * @param die			The multi-dice component for rolling.
+	 * @param dice			The multi-dice component for rolling.
 	 * @param maxRounds		The limit of rounds to simulate before termination.
 	*/
 	public GamePlay(List<Agent> agents, Board board, Dice dice, int maxRounds){
@@ -84,7 +84,7 @@ public class GamePlay {
 	 * @param roll	The integer value resulting from the dice roll.
 	 */
 	private void distributeResources(int roll){
-        for (int i = 0; i < 19; i++){
+        for (int i = 0; i < board.getTiles().size(); i++){ // change back to 19
             Tile currentTile = board.getTile(i);
 
             if (currentTile.getRollValue() == roll){
@@ -115,16 +115,14 @@ public class GamePlay {
         List<Runnable> possibleActions = new ArrayList<>();
 
         // Check for valid Settlement placements
-        for (int i = 0; i < 54; i++) {
-            Node node = board.getNode(i);
+        for (Node node : board.getNodes()) {
             if (canPlaceSettlement(agent, node)) {
                 possibleActions.add(() -> board.placeSettlement(node, new Settlement(agent, node)));
             }
         }
 
         // Check for valid City upgrades
-        for (int i = 0; i < 54; i++) {
-            Node node = board.getNode(i);
+        for (Node node : board.getNodes()) {
             if (canPlaceCity(agent, node)) {
                 possibleActions.add(() -> board.placeCity(node, new City(agent, node), agent));
             }
